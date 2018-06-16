@@ -27,12 +27,12 @@
   (if (cells loc) (disj cells loc) (conj cells loc)))
 
 (def default-db
-  {:live-cells #{[-1 0] [0 0] [1 0] [1 1] [0 2]}
+  {:live-cells #{[2 1] [3 2] [1 3] [2 3] [3 3]}
    :interval   100                                          ; milliseconds
    :running    false})
 
-;; Glider [-1 0] [0 0] [1 0] [1 1] [0 2]
-;; Blinker [-1 0] [0 0] [1 0]
+;; Glider [2 1] [3 2] [1 3] [2 3] [3 3]
+;; Blinker [1 2] [2 2] [3 2]
 
 ;; TODO: (challenge) Playback button
 
@@ -171,8 +171,6 @@
     (fn [width height cell-size]
       (let [live-cells @(rf/subscribe [:live-cells])
             mouse-over @(rf/subscribe [:mouse-over])
-            top-left-x (- (/ width 2))
-            top-left-y (- (/ height 2))
             grid-xy (grid-xy-fn cell-size)]
         [:svg {:key            "grid"
                :style          {:border-style "solid"
@@ -180,7 +178,6 @@
                                 :margin       "10px"}
                :width          width
                :height         height
-               :viewBox        (str top-left-x " " top-left-y " " width " " height)
                :ref            (fn [svg-elem]
                                  (when (nil? @svg-xy)
                                    (reset! svg-xy (svg-xy-fn svg-elem))))
@@ -228,8 +225,6 @@
        (fn [width height cell-size]
          (let [live-cells @(rf/subscribe [:live-cells])
                mouse-over @(rf/subscribe [:mouse-over])
-               top-left-x (- (/ width 2))
-               top-left-y (- (/ height 2))
                grid-xy (grid-xy-fn cell-size)]
            [:svg {:key            "grid2"
                   :style          {:border-style "solid"
@@ -237,7 +232,6 @@
                                    :margin       "10px"}
                   :width          width
                   :height         height
-                  :viewBox        (str top-left-x " " top-left-y " " width " " height)
 
                   :on-click       (fn [ev]
                                     (rf/dispatch [:toggle-cell (-> ev client-xy (@svg-xy) grid-xy)]))
@@ -272,13 +266,12 @@
 
 (defn canvas-grid-xy-fn
   "Returns a function to translate canvas coordinate to game grid coordinate"
-  [cell-size x-offset y-offset]
-  (fn [[x y]]
-    (mapv #(.floor js/Math (/ % cell-size)) (vector (- x x-offset) (- y y-offset)))))
+  [cell-size]
+  (fn [xy]
+    (mapv #(.floor js/Math (/ % cell-size)) xy)))
 
-(defn draw-cell-fn [x-offset y-offset]
-  (fn [ctx [x y] sz]
-    (.fillRect ctx (+ (* x sz) x-offset) (+ (* y sz) y-offset) sz sz)))
+(defn draw-cell [ctx [x y] sz]
+  (.fillRect ctx (* x sz) (* y sz) sz sz))
 
 (defn canvas-grid
   "A Reagent/React component that renders life to a html canvas"
@@ -288,12 +281,8 @@
         live-cells (atom nil)
         cell-size (atom cell-size)
 
-        x-offset (/ width 2)
-        y-offset (/ height 2)
-
         canvas-xy (atom nil)
-        canvas-grid-xy (canvas-grid-xy-fn @cell-size x-offset y-offset)
-        draw-cell (draw-cell-fn x-offset y-offset )
+        canvas-grid-xy (canvas-grid-xy-fn @cell-size)
         render (fn [sz]
                  (let [ctx (.getContext @elem "2d")
                        cells @live-cells
@@ -390,9 +379,9 @@
     "  Interval: "
     [interval-input]
     ]
-   [:div [svg-grid 600 300 10]]
-   #_[:div {:style {:margin-top "10px"}} [svg-grid2 600 300 20]]
-   #_[:div {:style {:margin-top "10px"}} [canvas-grid 600 300 20]]])
+   [:div [svg-grid 800 500 10]]
+   #_[:div {:style {:margin-top "10px"}} [svg-grid2 800 500 10]]
+   #_[:div {:style {:margin-top "10px"}} [canvas-grid 800 500 10]]])
 
 
 ;; -- Entry Point -------------------------------------------------------------
