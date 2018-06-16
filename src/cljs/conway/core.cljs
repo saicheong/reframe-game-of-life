@@ -17,7 +17,7 @@
     [(+ x dx) (+ y dy)]))
 
 (defn next-generation
-  "Returns the location of live cells in the next generation"
+  "Returns the next generation of cells"
   [cells]
   (set (for [[loc n] (frequencies (mapcat neighbours cells))
              :when (or (= n 3) (and (= n 2) (cells loc)))]
@@ -27,12 +27,29 @@
   (if (cells loc) (disj cells loc) (conj cells loc)))
 
 (def default-db
-  {:live-cells #{[2 1] [3 2] [1 3] [2 3] [3 3]}
+  {:live-cells #{[1 5] [1 6] [2 5] [2 6]
+                 [11 5] [11 6] [11 7]
+                 [12 4] [12 8]
+                 [13 3] [13 9]
+                 [14 3] [14 9]
+                 [15 6]
+                 [16 4] [16 8]
+                 [17 5] [17 6] [17 7]
+                 [18 6]
+                 [21 3] [21 4] [21 5]
+                 [22 3] [22 4] [22 5]
+                 [23 2] [23 6]
+                 [25 1] [25 2] [25 6] [25 7]
+                 [35 3] [35 4]
+                 [36 3] [36 4]}                             ; Gosper Gliding Gun
    :interval   100                                          ; milliseconds
    :running    false})
 
-;; Glider [2 1] [3 2] [1 3] [2 3] [3 3]
+;; Other well known seeds:
 ;; Blinker [1 2] [2 2] [3 2]
+;; Pentadecathlon
+;; Glider [2 1] [3 2] [1 3] [2 3] [3 3]
+;; Lightweight spaceship [1 1] [1 3] [2 4] [3 4] [4 1] [4 4] [5 2] [5 3] [5 4]
 
 ;; TODO: (challenge) Playback button
 
