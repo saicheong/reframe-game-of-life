@@ -162,12 +162,13 @@
 
 (defn svg-cell
   ([loc sz]
-   (let [[x y] loc]
+   (let [[x y] loc
+         w (dec sz)]
      [:rect {:key    (str x "," y)
              :x      (* x sz)
              :y      (* y sz)
-             :height sz
-             :width  sz}]))
+             :height w
+             :width  w}]))
   ([loc sz style]
    (assoc-in (svg-cell loc sz) [1 :style] style)))
 
@@ -288,7 +289,8 @@
     (mapv #(.floor js/Math (/ % cell-size)) xy)))
 
 (defn draw-cell [ctx [x y] sz]
-  (.fillRect ctx (* x sz) (* y sz) sz sz))
+  (let [w (dec sz)]
+    (.fillRect ctx (* x sz) (* y sz) w w)))
 
 (defn canvas-grid
   "A Reagent/React component that renders life to a html canvas"
