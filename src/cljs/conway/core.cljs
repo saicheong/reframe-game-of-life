@@ -1,6 +1,16 @@
 (ns conway.core
   "An implementation of Conway Game of Life.
 
+  Played out on a infinite 2 dimensional grid of square cells, each of which
+  may be alive (populated) or dead (unpopulated). Each cell has eight neighbours.
+
+  At each step in time, the following transitions occur:
+
+  1. Any live cell with fewer than 2 live neighbour dies (as if by under population).
+  2. Any live cell with 2 or 3 live neighbour lives on.
+  3. Any live cell with more than 3 live neighbour dies (as if by over population).
+  4. Any dead cell with exactly 3 live neighbour becomes a live cell. (as if by reproduction)
+
   Reference:
   1. Clojure Programming, Chas Emerick, Brian Carper & Christophe Grand
   2. Wikipedia: https://en.wikipedia.org/wiki/Conway's_Game_of_Life"
@@ -63,6 +73,8 @@
   (fn [_ _]
     default-db))
 
+;; setting up
+
 (rf/reg-event-db
   :toggle-cell
   (fn [db [_ grid-pos]]
@@ -85,13 +97,10 @@
       (assoc db :interval (js/parseInt timing 10))
       db)))
 
-(rf/reg-event-db
-  :next-step
-  (fn [db _]
-    (assoc db :live-cells (next-generation (:live-cells db)))))
+;; running
 
 (rf/reg-event-db
-  :pause-play
+  :pause
   (fn [db _]
     (assoc db :running false)))
 
@@ -101,15 +110,15 @@
     (if running
       {:db db}
       {:db       (assoc db :running true)
-       :dispatch [:run]})))
+       :dispatch [:step]})))
 
 (rf/reg-event-fx
-  :run
+  :step
   (fn [cofx _]
     (let [{:keys [db]} cofx
           {:keys [live-cells interval running]} db]
-      {:db             (assoc db :live-cells (next-generation live-cells))
-       :dispatch-later [(when running {:ms interval :dispatch [:run]})]})))
+      (cond-> {:db (assoc db :live-cells (next-generation live-cells))}
+              running (assoc :dispatch-later [{:ms interval :dispatch [:step]}])))))
 
 
 ;; -- Domino 4 - Query  -------------------------------------------------------
@@ -367,7 +376,7 @@
     [:input {:type     "button"
              :value    " Step "
              :disabled running
-             :on-click #(rf/dispatch [:next-step])}]))
+             :on-click #(rf/dispatch [:step])}]))
 
 (defn play-btn []
   (let [running @(rf/subscribe [:running])]
@@ -394,7 +403,7 @@
     [button " Reset " :initialize-db]
     [step-btn]
     [play-btn]
-    [button " Pause " :pause-play]
+    [button " Pause " :pause]
     "  Interval: "
     [interval-input]
     ]
