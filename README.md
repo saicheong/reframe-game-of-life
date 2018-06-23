@@ -18,6 +18,7 @@ application is also used to experiment with Reagent components to display
 Game of Life on [HTML5 SVG](https://www.w3schools.com/Html/html5_svg.asp) and 
 on [HTML5 Canvas](https://www.w3schools.com/Html/html5_canvas.asp).  
  
+See live demo [here](https://saicheong.github.io/reframe-game-of-life/index.html).
 
 ## Development Mode
 
