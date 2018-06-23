@@ -1,4 +1,4 @@
-# conway
+# re-frame Game of Life
 
 A [re-frame](https://github.com/Day8/re-frame) front-end to visualize and interact
 with Conway Game of Life ([Wikipedia](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)).
@@ -41,3 +41,9 @@ To compile clojurescript to javascript:
 lein clean
 lein cljsbuild once min
 ```
+
+## License
+
+Copyright © 2018 Yow Sai Cheong
+
+Released under the MIT license.
