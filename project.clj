@@ -17,9 +17,10 @@
   :profiles
   {:dev
    {:dependencies [[binaryage/devtools "0.9.10"]]
-
     :plugins      [[lein-figwheel "0.5.16"]]}
-   :prod { }}
+
+   :prod
+   {}}
 
   :cljsbuild
   {:builds
@@ -35,6 +36,14 @@
                     :external-config      {:devtools/config {:features-to-install :all}}
                     }}
 
+    {:id           "simple"
+     :source-paths ["src/cljs"]
+     :compiler     {:main            conway.core
+                    :output-to       "resources/public/js/compiled/app.js"
+                    :optimizations   :simple
+                    :closure-defines {goog.DEBUG false}
+                    :pretty-print    false}}
+
     {:id           "min"
      :source-paths ["src/cljs"]
      :compiler     {:main            conway.core
@@ -43,6 +52,14 @@
                     :closure-defines {goog.DEBUG false}
                     :pretty-print    false}}
 
+    {:id           "min-debug"
+     :source-paths ["src/cljs"]
+     :compiler     {:main            conway.core
+                    :output-to       "resources/public/js/compiled/app.js"
+                    :optimizations   :advanced
+                    :closure-defines {goog.DEBUG false}
+                    :pretty-print    true
+                    :pseudo-names    true}}
 
     ]}
 
