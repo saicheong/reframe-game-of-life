@@ -36,14 +36,6 @@
                     :external-config      {:devtools/config {:features-to-install :all}}
                     }}
 
-    {:id           "simple"
-     :source-paths ["src/cljs"]
-     :compiler     {:main            conway.core
-                    :output-to       "resources/public/js/compiled/app.js"
-                    :optimizations   :simple
-                    :closure-defines {goog.DEBUG false}
-                    :pretty-print    false}}
-
     {:id           "min"
      :source-paths ["src/cljs"]
      :compiler     {:main            conway.core
@@ -51,15 +43,6 @@
                     :optimizations   :advanced
                     :closure-defines {goog.DEBUG false}
                     :pretty-print    false}}
-
-    {:id           "min-debug"
-     :source-paths ["src/cljs"]
-     :compiler     {:main            conway.core
-                    :output-to       "resources/public/js/compiled/app.js"
-                    :optimizations   :advanced
-                    :closure-defines {goog.DEBUG false}
-                    :pretty-print    true
-                    :pseudo-names    true}}
 
     ]}
 
