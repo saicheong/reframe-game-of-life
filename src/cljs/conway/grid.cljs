@@ -9,11 +9,12 @@
 
 (defn- svg-pos [client-pos svg-elem]
   (let [[x y] client-pos
-        svg-point (.createSVGPoint svg-elem)
-        matrix (-> svg-elem .getScreenCTM .inverse)]
+        svg-point (.call (goog.object/get svg-elem "createSVGPoint") svg-elem)
+        ctm (.call (goog.object/get svg-elem "getScreenCTM") svg-elem)
+        matrix (.call (goog.object/get ctm "inverse") ctm)]
     (set! (.-x svg-point) x)
     (set! (.-y svg-point) y)
-    (let [gpt (.matrixTransform svg-point matrix)]
+    (let [gpt (.call (goog.object/get svg-point "matrixTransform") svg-point matrix)]
       [(int (.-x gpt)) (int (.-y gpt))])))
 
 (defn- grid-pos [svg-pos cell-size]
