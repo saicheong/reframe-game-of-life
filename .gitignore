@@ -10,6 +10,10 @@ pom.xml.asc
 .nrepl-port
 .rebel_readline_history
 
+.shadow-cljs
+node_modules
+package-lock.json
+
 resources/public/js/compiled
 *.log
 
