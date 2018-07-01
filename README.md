@@ -56,8 +56,8 @@ This will begin the compilation of the configured `:app` build and re-compile
 whenever you change a file.
 
 As this application uses react, the compile will fail if react, react-dom and
-create-react-class are not available. Run the following to install the missing
-dependency
+create-react-class are not available. Run the following to install any missing
+dependencies.
 
 ```bash
 npm install react react-dom create-react-class
