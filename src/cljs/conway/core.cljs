@@ -198,6 +198,7 @@
                                 :border-color "#bccad6"
                                 :margin       "10px"}}]]
 
+   #_
    [:div [svg-grid2 {:width     800
                     :height    500
                     :cell-size 10
@@ -206,6 +207,7 @@
                                 :border-color "#622569"
                                 :margin       "10px"}}]]
 
+   #_
    [:div [canvas-grid {:width     800
                        :height    500
                        :cell-size 10
