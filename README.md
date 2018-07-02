@@ -35,13 +35,19 @@ Wait a bit, then browse to [http://localhost:3449](http://localhost:3449).
 
 ## Production Build
 
-
 To compile clojurescript to javascript:
 
 ```
 lein clean
 lein cljsbuild once min
 ```
+
+> __NOTE__: This version uses a [quick fix to resolve an extern issue](https://clojureverse.org/t/error-when-using-advance-compiler-optimization-createsvgpoint-is-not-a-function/2330?u=saicheong) 
+by avoiding javascript interop for an externally defined type (SVG Element). 
+See [here](https://github.com/saicheong/reframe-game-of-life/tree/shadow-cljs) for 
+an alternative solution using [Shadow CLJS](https://github.com/thheller/shadow-cljs)
+which can generate extern file so that you do not have to avoid or forgo
+standard javascript interop.    
 
 ## License
 
