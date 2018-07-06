@@ -1,6 +1,6 @@
 (defproject conway "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.10.238"]
+                 [org.clojure/clojurescript "1.10.339"]
                  [reagent "0.7.0"]
                  [re-frame "0.10.5"]]
 
@@ -33,6 +33,7 @@
                     :asset-path           "js/compiled/out"
                     :source-map-timestamp true
                     :preloads             [devtools.preload]
+                    :optimizations        :none
                     :external-config      {:devtools/config {:features-to-install :all}}
                     }}
 
@@ -41,6 +42,7 @@
      :compiler     {:main            conway.core
                     :output-to       "resources/public/js/compiled/app.js"
                     :optimizations   :advanced
+                    :infer-externs   true
                     :closure-defines {goog.DEBUG false}
                     :pretty-print    false}}
 
