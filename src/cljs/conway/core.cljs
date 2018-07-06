@@ -207,7 +207,6 @@
                                 :border-color "#622569"
                                 :margin       "10px"}}]]
 
-   #_
    [:div [canvas-grid {:width     800
                        :height    500
                        :cell-size 10
