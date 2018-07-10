@@ -8,7 +8,7 @@
 (defn- client-pos [ev]
   [(.-clientX ev) (.-clientY ev)])
 
-(defn- svg-pos [client-pos ^js/Object svg-elem]
+(defn- svg-pos [client-pos ^js/SVGElement svg-elem]
   (let [[x y] client-pos
         svg-point (.createSVGPoint svg-elem)
         matrix (-> svg-elem .getScreenCTM .inverse)]

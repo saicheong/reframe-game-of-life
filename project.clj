@@ -33,6 +33,7 @@
                     :asset-path           "js/compiled/out"
                     :source-map-timestamp true
                     :preloads             [devtools.preload]
+                    :infer-externs        true
                     :optimizations        :none
                     :external-config      {:devtools/config {:features-to-install :all}}
                     }}
