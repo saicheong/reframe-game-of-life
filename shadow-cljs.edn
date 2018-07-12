@@ -1,6 +1,5 @@
 ;; shadow-cljs configuration
-{;; not able to get this to work - will get error during compile
- ;:lein {:profile "+cljs"}
+{:lein {:profile "+cljs"}
 
  :source-paths
  ["src/cljs"]
